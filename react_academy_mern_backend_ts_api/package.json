@@ -41,7 +41,7 @@
     "helmet": "3.9.0",
     "joi": "14.3.0",
     "moment": "^2.24.0",
-    "mongoose": "5.4.0",
+    "mongoose": "5.7.5",
     "oauth2-server": "3.0.1",
     "ts-node": "6.0.3",
     "util": "0.11.1"
