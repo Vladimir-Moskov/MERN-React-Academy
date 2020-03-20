@@ -1,0 +1,531 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Node-Typescript API",
+    "version": "1.0.1",
+    "description": "A sample API"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3210"
+    }
+  ],
+  "paths": {
+    "/auth/signup/": {
+      "post": {
+        "description": "sign up user to application",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "description": "sign up body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              },
+              "example": {
+                "email": "test.user@mail.com",
+                "password": "test_test"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user successfuly signed in",
+            "content": {
+              "appication/json": {
+                "example": {
+                  "status": 200,
+                  "logged": true,
+                  "message": "Sign in successfull!!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "sign in failed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "logged": false,
+                  "message": "Email already exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/": {
+      "post": {
+        "description": "Login user to application",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "description": "login body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              },
+              "example": {
+                "email": "test.user@mail.com",
+                "password": "test_test"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user successfuly logged",
+            "content": {
+              "appication/json": {
+                "example": {
+                  "status": 200,
+                  "logged": true,
+                  "message": "Successfully logged!"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not logged, invalid credentials",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 401,
+                  "logged": false,
+                  "message": "Invalid credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/catalog/book": {
+      "get": {
+        "description": "Get all stored book in Database",
+        "tags": [
+          "books"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of books",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Books"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/{id}": {
+      "get": {
+        "description": "Get user by userId",
+        "tags": [
+          "users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the unique userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return user by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserSchema"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete user by userId",
+        "tags": [
+          "users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the unique userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return deleted user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserSchema"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users": {
+      "post": {
+        "description": "Create new User",
+        "tags": [
+          "users"
+        ],
+        "requestBody": {
+          "description": "user creation request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              },
+              "example": {
+                "name": "userName",
+                "email": "test.user@mail.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "return created user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserSchema"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get all stored users in Database",
+        "tags": [
+          "users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Users"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/catalog/bookinstance": {
+      "get": {
+        "description": "Get all stored book in Database",
+        "tags": [
+          "books"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of books",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Books"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/catalog/book/{id}": {
+      "get": {
+        "description": "Get user by userId",
+        "tags": [
+          "catalog/book"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the unique userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return user by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserSchema"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuthorSchema": {
+        "required": [
+          "first_name",
+          "family_name"
+        ],
+        "properties": {
+          "first_name": {
+            "type": "string"
+          },
+          "family_name": {
+            "type": "string"
+          },
+          "date_of_birth": {
+            "type": "Date"
+          },
+          "date_of_death": {
+            "type": "Date"
+          }
+        }
+      },
+      "Authors": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/AuthorSchema"
+        }
+      },
+      "BookSchema": {
+        "required": [
+          "title",
+          "author",
+          "summary",
+          "isbn"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "isbn": {
+            "type": "string"
+          },
+          "author": {
+            "type": "ObjectId"
+          },
+          "genre": {
+            "type": "ObjectId"
+          }
+        }
+      },
+      "Books": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/BookSchema"
+        }
+      },
+      "BookInstanceSchema": {
+        "required": [
+          "book",
+          "imprint",
+          "status"
+        ],
+        "properties": {
+          "book": {
+            "type": "string"
+          },
+          "imprint": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "due_back": {
+            "type": "Date"
+          }
+        }
+      },
+      "Genres": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Genrechema"
+        }
+      },
+      "GenreSchema": {
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UserSchema": {
+        "required": [
+          "email",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "passwordResetToken": {
+            "type": "string"
+          },
+          "passwordResetExpires": {
+            "type": "string",
+            "format": "date"
+          },
+          "tokens": {
+            "type": "array"
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UserSchema"
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "description": "Error description",
+            "example": "User created"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "oAuth2AuthCode": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "/auth/login",
+            "tokenUrl": "/auth/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

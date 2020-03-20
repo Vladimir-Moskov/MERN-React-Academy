@@ -1,0 +1,129 @@
+import { Router } from 'express';
+import { BookComponent } from '../../components/Catalog';
+
+/**
+ * @constant {express.Router}
+ */
+const router: Router = Router();
+
+/**
+ * GET method route
+ * @example http://localhost:PORT/v1/catalog/book
+ * 
+ * @swagger
+ * /v1/catalog/book:
+ *   get:
+ *     description: Get all stored book in Database
+ *     tags: ["books"]
+ *     responses:
+ *       200:
+ *         description: An array of books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                - $ref: '#/components/schemas/Books'
+ *       default:
+ *          description: unexpected error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Error'
+ */
+router.get('/', BookComponent.findAll);
+
+/**
+ * GET method route 
+ * @example http://localhost:PORT/v1/catalog/book/:id
+ * 
+ * @swagger
+ * /v1/catalog/book/{id}:
+ *  get:
+ *    description: Get user by userId
+ *    tags: ["catalog/book"]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: the unique userId
+ *        required: true
+ *        schema:
+ *          type: string
+ *    responses:
+ *      200:
+ *        description: return user by id
+ *        content:
+ *          application/json:
+ *            schema:
+ *              oneOf:
+ *                - $ref: '#/components/schemas/UserSchema'
+ */
+router.get('/:id', BookComponent.findOne);
+
+/**
+ * POST method route
+ * @example http://localhost:PORT/v1/users
+ * 
+ * @swagger
+ * /v1/users:
+ *   post:
+ *      description: Create new User
+ *      tags: ["users"]
+ *      requestBody:
+ *        description: user creation request body
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UserSchema'
+ *            example:
+ *              name: userName
+ *              email: test.user@mail.com
+ *      responses:
+ *        201:
+ *          description: return created user
+ *          content:
+ *            application/json:
+ *              schema:
+ *                oneOf:
+ *                  - $ref: '#/components/schemas/UserSchema'
+ *        default:
+ *          description: unexpected error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Error'
+ */
+//router.post('/', UserComponent.create);
+
+
+/**
+ * DELETE method route
+ * @example  http://localhost:PORT/v1/users/:id
+ * 
+ * @swagger
+ * /v1/users/{id}:
+ *  delete:
+ *    description: Delete user by userId
+ *    tags: ["users"]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: the unique userId
+ *        required: true
+ *        schema:
+ *          type: string
+ *    responses:
+ *      200:
+ *        description: return deleted user
+ *        content:
+ *          application/json:
+ *            schema:
+ *              oneOf:
+ *                - $ref: '#/components/schemas/UserSchema'
+ */
+//router.delete('/:id', UserComponent.remove);
+
+/**
+ * @export {express.Router}
+ */
+export default router;
